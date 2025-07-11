@@ -1,0 +1,37 @@
+.person-details {
+  padding-block: 42px;
+  display: grid;
+
+  max-height: 100%;
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 8px;
+    justify-self: start;
+
+    font-family: 'Karla', 'sans-serif';
+    font-weight: 700;
+    text-decoration: none;
+    color: #000;
+    transition-duration: 0.2s;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    &__link:hover {
+      opacity: 0.7;
+    }
+  }
+  @media (hover: none) {
+    &__link:active {
+      opacity: 0.7;
+    }
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
