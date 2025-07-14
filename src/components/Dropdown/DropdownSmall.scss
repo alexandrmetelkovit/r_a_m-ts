@@ -1,0 +1,78 @@
+.dropdown-small {
+  position: relative;
+  width: 94px;
+  cursor: pointer;
+
+  &__button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 2px 5px;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  &__arrow {
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 3px solid rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease;
+  }
+
+  &__arrow.active {
+    transform: rotate(180deg);
+  }
+
+  &-inner {
+    visibility: hidden;
+    transition: 0.2s;
+    opacity: 1;
+  }
+
+  &-inner.active {
+    visibility: visible;
+    transition: 0.2s;
+    opacity: 1;
+  }
+
+  &__list {
+    position: absolute;
+    top: calc(100% + 8px);
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  &__item {
+    padding: 5px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  @media (hover: hover) {
+    &__item:hover {
+      background-color: rgb(143, 145, 147);
+    }
+  }
+  @media (hover: none) {
+    &__item:active {
+      background-color: rgb(143, 145, 147);
+    }
+  }
+}
