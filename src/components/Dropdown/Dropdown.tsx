@@ -1,31 +1,36 @@
 import { useEffect, useRef, useState } from 'react';
 import './Dropdown.scss';
 
-interface TOptions {
+type DropdownVariant = 'default' | 'small';
+
+interface DropdownOption {
   label: string | number;
   value: string | number;
+  color?: string; //опционально для маленького селекта
 }
 
-const options: TOptions[] = [
-  { value: 'human', label: 'Human' },
-  { value: 'alien', label: 'Alien' },
-  { value: 'humanoid', label: 'Humanoid' },
-  { value: 'animal', label: 'Animal' },
-  { value: 'robot', label: 'Robot' }
-];
+interface DropdownProps {
+  options: DropdownOption[];
+  variant?: DropdownVariant;
+  defaultValue?: string;
+  selectTitle?: string;
+}
 
-export const Dropdown = () => {
+export const Dropdown: React.FC<DropdownProps> = ({
+  selectTitle,
+  options,
+  variant,
+  defaultValue
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<
     string | number | null
-  >(null);
+  >(
+    defaultValue || (variant === 'small' ? 'unknown' : null)
+  );
   const dropdownInnerRef = useRef<HTMLDivElement | null>(
     null
   );
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
 
   useEffect(() => {
     function handleDocumentClick(event: MouseEvent) {
@@ -35,7 +40,7 @@ export const Dropdown = () => {
           event.target as Node
         )
       ) {
-        handleClose();
+        setIsOpen(false);
       }
     }
 
@@ -51,9 +56,17 @@ export const Dropdown = () => {
     };
   }, []);
 
+  const selected = options.find(
+    (option) => option.value === selectedOption
+  );
+
+  const className = `dropdown${
+    variant === 'small' ? ' dropdown--small' : ''
+  }`;
+
   return (
     <div
-      className='dropdown'
+      className={className}
       ref={dropdownInnerRef}
     >
       <button
@@ -62,17 +75,26 @@ export const Dropdown = () => {
           setIsOpen(!isOpen);
         }}
       >
-        {selectedOption
-          ? options.find(
-              (option) => option.value === selectedOption
-            )?.label
-          : 'Species'}
+        {selected ? (
+          <>
+            {selected.label}
+            {variant === 'small' && selected.color && (
+              <span
+                className='dropdown__dot'
+                style={{ backgroundColor: selected.color }}
+              />
+            )}
+          </>
+        ) : (
+          selectTitle
+        )}
         <span
           className={`dropdown__arrow ${
             isOpen ? 'active' : ''
           }`}
         ></span>
       </button>
+
       {isOpen && (
         <nav
           className={`dropdown-inner ${
@@ -80,16 +102,22 @@ export const Dropdown = () => {
           }`}
         >
           <ul className='dropdown__list'>
-            {options.map(({ label, value }) => (
+            {options.map(({ label, value, color }) => (
               <li
                 key={value}
                 className='dropdown__item'
                 onClick={() => {
                   setSelectedOption(value);
-                  handleClose();
+                  setIsOpen(false);
                 }}
               >
                 {label}
+                {variant === 'small' && color && (
+                  <span
+                    className='dropdown__dot'
+                    style={{ backgroundColor: color }}
+                  />
+                )}
               </li>
             ))}
           </ul>
