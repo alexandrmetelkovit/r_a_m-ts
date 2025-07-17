@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Dropdown.scss';
+import classNames from 'classnames';
 
 type DropdownVariant = 'default' | 'small';
 
@@ -64,6 +65,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
     variant === 'small' ? ' dropdown--small' : ''
   }`;
 
+  const handleClose = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div
       className={className}
@@ -71,12 +76,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
     >
       <button
         className='dropdown__button'
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
+        onClick={handleClose}
       >
         {selected ? (
-          <>
+          <div className='dropdown__button-body'>
             {selected.label}
             {variant === 'small' && selected.color && (
               <span
@@ -84,22 +87,22 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 style={{ backgroundColor: selected.color }}
               />
             )}
-          </>
+          </div>
         ) : (
           selectTitle
         )}
         <span
-          className={`dropdown__arrow ${
-            isOpen ? 'active' : ''
-          }`}
+          className={classNames('dropdown__arrow', {
+            active: isOpen
+          })}
         ></span>
       </button>
 
       {isOpen && (
         <nav
-          className={`dropdown-inner ${
-            isOpen ? 'active' : ''
-          }`}
+          className={classNames('dropdown-inner', {
+            active: isOpen
+          })}
         >
           <ul className='dropdown__list'>
             {options.map(({ label, value, color }) => (
@@ -108,7 +111,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 className='dropdown__item'
                 onClick={() => {
                   setSelectedOption(value);
-                  setIsOpen(false);
+                  handleClose();
                 }}
               >
                 {label}
