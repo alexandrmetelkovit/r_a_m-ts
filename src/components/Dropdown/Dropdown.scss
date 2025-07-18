@@ -1,0 +1,106 @@
+.dropdown {
+  position: relative;
+  cursor: pointer;
+  min-width: 240px; // по умолчанию — большой
+  max-width: 240px;
+
+  &--small {
+    min-width: 94px;
+    max-width: 94px;
+  }
+
+  &__button,
+  &__item {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 240px;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 16px;
+    padding: 18px 14px;
+    border: 1px solid #00000061;
+    border-radius: 6px;
+    color: #00000099;
+    background-color: transparent;
+
+    .dropdown--small & {
+      font-size: 14px;
+      padding: 2px 5px;
+    }
+
+    &-body {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+    }
+  }
+
+  &__arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #00000099;
+    transition: transform 0.2s ease;
+
+    .dropdown--small & {
+      border-left-width: 3px;
+      border-right-width: 3px;
+      border-top-width: 3px;
+    }
+
+    &.active {
+      transform: rotate(180deg);
+    }
+  }
+
+  &-inner {
+    visibility: hidden;
+    opacity: 1;
+    transition: 0.2s;
+
+    &.active {
+      visibility: visible;
+    }
+  }
+
+  &__list {
+    position: absolute;
+    top: calc(100% + 8px);
+    width: 100%;
+    max-width: 240px;
+    border: 1px solid #00000061;
+    border-radius: 6px;
+  }
+
+  &__item {
+    padding: 10px 14px;
+    font-size: 16px;
+    color: #00000099;
+
+    .dropdown--small & {
+      padding: 5px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+    }
+
+    &:hover,
+    &:active {
+      background-color: #8f9193;
+    }
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+}

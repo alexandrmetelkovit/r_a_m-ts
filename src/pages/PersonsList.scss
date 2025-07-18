@@ -7,5 +7,13 @@
   &__image {
     max-width: 100%;
     min-width: 312px;
+    margin-bottom: 16px;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    max-width: 100%;
   }
 }
