@@ -1,8 +1,8 @@
 // import { Loader } from '../components/Loader/Loader';
 import { useState } from 'react';
 import { Dropdown } from '../components/Dropdown/Dropdown';
-import { Input } from '../components/Input/Input';
 import './PersonsList.scss';
+import { Input } from '../components/Input/Input';
 
 interface DropdownOption {
   label: string | number;
@@ -17,16 +17,15 @@ const optionsSpecies: DropdownOption[] = [
   { value: 'robot', label: 'Robot' }
 ];
 
-// const optionsStatus: DropdownOption[] = [
-//   { value: 'alive', label: 'Alive', color: 'green' },
-//   { value: 'dead', label: 'Dead', color: 'red' },
-//   { value: 'unknown', label: 'Unknown', color: 'orange' }
-// ];
+const optionsStatus: DropdownOption[] = [
+  { value: 'alive', label: 'Alive', color: 'green' },
+  { value: 'dead', label: 'Dead', color: 'red' },
+  { value: 'unknown', label: 'Unknown', color: 'orange' }
+];
 
 export const Personslist = () => {
   const [personName, setPersonName] = useState('');
   const [searchName, setSearchName] = useState('');
-
   return (
     <div className='persons-list container'>
       <div className='persons-list__image'>
@@ -58,11 +57,10 @@ export const Personslist = () => {
           selectTitle='Species'
           options={optionsSpecies}
         />
-
-        {/* <Dropdown
+        <Dropdown
           options={optionsStatus}
           variant='small'
-        /> */}
+        />
       </div>
     </div>
   );
