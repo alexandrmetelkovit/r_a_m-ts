@@ -1,6 +1,8 @@
 // import { Loader } from '../components/Loader/Loader';
+import { useState } from 'react';
 import { Dropdown } from '../components/Dropdown/Dropdown';
 import './PersonsList.scss';
+import { Input } from '../components/Input/Input';
 
 interface DropdownOption {
   label: string | number;
@@ -22,6 +24,8 @@ const optionsStatus: DropdownOption[] = [
 ];
 
 export const Personslist = () => {
+  const [personName, setPersonName] = useState('');
+  const [searchName, setSearchName] = useState('');
   return (
     <div className='persons-list container'>
       <div className='persons-list__image'>
@@ -35,11 +39,24 @@ export const Personslist = () => {
       </div>
       {/* <Loader text='Loading characters...' /> */}
       <div className='persons-list__body'>
+        <Input
+          variant='personEdit'
+          value={personName}
+          placeholder='Rick Sanchez'
+          onChange={(e) => setPersonName(e.target.value)}
+        />
+
+        <Input
+          variant='default'
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          placeholder='Filter by name...'
+        />
+
         <Dropdown
           selectTitle='Species'
           options={optionsSpecies}
         />
-
         <Dropdown
           options={optionsStatus}
           variant='small'

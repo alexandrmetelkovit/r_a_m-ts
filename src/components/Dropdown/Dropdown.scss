@@ -25,7 +25,7 @@
     max-width: 240px;
     font-family: 'Roboto', 'sans-serif';
     font-size: 16px;
-    padding: 18px 14px;
+    padding: 16px 14px;
     border: 1px solid #00000061;
     border-radius: 6px;
     color: #00000099;
@@ -81,8 +81,10 @@
 
   &__item {
     padding: 10px 14px;
+
     font-size: 16px;
     color: #00000099;
+    border-radius: 6px;
 
     .dropdown--small & {
       padding: 5px;
@@ -94,7 +96,7 @@
 
     &:hover,
     &:active {
-      background-color: #8f9193;
+      background-color: #b2b6ba;
     }
   }
 
