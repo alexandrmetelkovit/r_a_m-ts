@@ -1,24 +1,17 @@
-import { PersonCard } from '../components/PersonCard/PersonCard';
+import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import './PersonsList.scss';
 import imageSrcOne from '../assets/images/person-card/1.jpg';
+import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 
-type Person = {
-  name: string;
-  gender: string;
-  species: string;
-  location: string;
-  status: 'Alive' | 'Dead' | 'Unknown';
-  imageSrc: string;
-};
-
-const arrPerson: Person[] = [
+const arrPerson: IPersonCardProps[] = [
   {
     name: 'Rick Sanchez',
     gender: 'Male',
     species: 'Human',
     location: 'Earth',
     status: 'Alive',
-    imageSrc: imageSrcOne
+    imageSrc: imageSrcOne,
+    imageSrcAlt: 'картинка персонажа рик'
   }
 ];
 
@@ -35,29 +28,12 @@ export const Personslist = () => {
         />
       </div>
       <div className='persons-list__body'>
-        {arrPerson.map(
-          (
-            {
-              name,
-              gender,
-              location,
-              status,
-              species,
-              imageSrc
-            },
-            index
-          ) => (
-            <PersonCard
-              key={index}
-              name={name}
-              gender={gender}
-              location={location}
-              status={status}
-              species={species}
-              imageSrc={imageSrc}
-            />
-          )
-        )}
+        {arrPerson.map((item, index) => (
+          <PersonCard
+            key={index}
+            {...item}
+          />
+        ))}
       </div>
     </div>
   );

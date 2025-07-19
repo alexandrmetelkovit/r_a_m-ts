@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 type InputVariant = 'default' | 'personEdit';
 
-interface TInputProps {
+export interface IInputProps {
   variant?: InputVariant;
   value?: string | number;
   placeholder?: string;
@@ -12,7 +12,7 @@ interface TInputProps {
   ) => void;
 }
 
-export const Input: React.FC<TInputProps> = ({
+export const Input: React.FC<IInputProps> = ({
   variant = 'default',
   value,
   placeholder,

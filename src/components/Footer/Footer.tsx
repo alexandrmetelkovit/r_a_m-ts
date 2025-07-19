@@ -1,10 +1,10 @@
 import './Footer.scss';
 
-interface TFooterTextProps {
+interface IFooterTextProps {
   text: string;
 }
 
-export const Footer: React.FC<TFooterTextProps> = ({
+export const Footer: React.FC<IFooterTextProps> = ({
   text
 }) => {
   return (

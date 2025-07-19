@@ -1,13 +1,18 @@
 import './PersonCard.scss';
 
-type TPersonCardProps = {
-  name: string;
+interface IPersonCardAttributes {
   gender: string;
   species: string;
   location: string;
   status: 'Alive' | 'Dead' | 'Unknown';
+}
+
+export interface IPersonCardProps
+  extends IPersonCardAttributes {
+  name: string;
   imageSrc: string;
-};
+  imageSrcAlt: string;
+}
 
 export const PersonCard = ({
   name,
@@ -15,8 +20,9 @@ export const PersonCard = ({
   species,
   location,
   status,
-  imageSrc
-}: TPersonCardProps) => {
+  imageSrc,
+  imageSrcAlt
+}: IPersonCardProps) => {
   return (
     <div className='person-card'>
       <div className='person-card__image'>
@@ -25,7 +31,7 @@ export const PersonCard = ({
           width={240}
           height={234}
           loading='lazy'
-          alt='фото персонажа рик санчес'
+          alt={imageSrcAlt}
         />
       </div>
       <div className='person-card__body'>
