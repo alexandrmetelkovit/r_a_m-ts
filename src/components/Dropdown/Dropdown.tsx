@@ -4,20 +4,20 @@ import classNames from 'classnames';
 
 type DropdownVariant = 'default' | 'small';
 
-interface DropdownOption {
+interface IDropdownOption {
   label: string | number;
   value: string | number;
   color?: string; //опционально для маленького селекта
 }
 
-interface DropdownProps {
-  options: DropdownOption[];
+export interface IDropdownProps {
+  options: IDropdownOption[];
   variant?: DropdownVariant;
   defaultValue?: string;
   selectTitle?: string;
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({
+export const Dropdown: React.FC<IDropdownProps> = ({
   selectTitle,
   options,
   variant,

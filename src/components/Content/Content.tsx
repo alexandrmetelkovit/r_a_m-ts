@@ -1,10 +1,10 @@
 import './Content.scss';
 
-interface TContentProps {
+interface IContentProps {
   children: React.ReactNode;
 }
 
-export const Content: React.FC<TContentProps> = ({
+export const Content: React.FC<IContentProps> = ({
   children
 }) => {
   return (

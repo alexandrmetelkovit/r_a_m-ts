@@ -1,10 +1,10 @@
 import './Loader.scss';
 
-interface TLoaderTextProps {
+interface ILoaderTextProps {
   text: string;
 }
 
-export const Loader: React.FC<TLoaderTextProps> = ({
+export const Loader: React.FC<ILoaderTextProps> = ({
   text
 }) => {
   return (
