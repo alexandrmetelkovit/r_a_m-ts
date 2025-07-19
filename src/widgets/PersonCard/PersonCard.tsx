@@ -14,6 +14,15 @@ export interface IPersonCardProps
   imageSrcAlt: string;
 }
 
+const statusColorMap: Record<
+  IPersonCardAttributes['status'],
+  string
+> = {
+  Alive: 'green',
+  Dead: 'red',
+  Unknown: 'orange'
+};
+
 export const PersonCard = ({
   name,
   gender,
@@ -55,7 +64,12 @@ export const PersonCard = ({
             <p className='person-card__title'>Status</p>
             <p className='person-card__view'>
               {status}
-              <span className='dot'></span>
+              <span
+                className='dot'
+                style={{
+                  backgroundColor: statusColorMap[status]
+                }}
+              ></span>
             </p>
           </li>
         </ul>
