@@ -15,13 +15,15 @@ export interface IDropdownProps {
   variant?: DropdownVariant;
   defaultValue?: string;
   selectTitle?: string;
+  onChange?: (value: string | number) => void;
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
   selectTitle,
   options,
   variant,
-  defaultValue
+  defaultValue,
+  onChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<
@@ -111,6 +113,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
                 className='dropdown__item'
                 onClick={() => {
                   setSelectedOption(value);
+                  onChange?.(value);
                   handleClose();
                 }}
               >

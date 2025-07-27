@@ -1,5 +1,5 @@
-import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import './PersonsList.scss';
+import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import imageSrcOne from '../assets/images/person-card/1.jpg';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 

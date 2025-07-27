@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import './PersonCard.scss';
+import { Input } from '../../components/Input/Input';
+import { Dropdown } from '../../components/Dropdown/Dropdown';
 
 interface IPersonCardAttributes {
   gender: string;
@@ -14,14 +17,11 @@ export interface IPersonCardProps
   imageSrcAlt: string;
 }
 
-const statusColorMap: Record<
-  IPersonCardAttributes['status'],
-  string
-> = {
-  Alive: 'green',
-  Dead: 'red',
-  Unknown: 'orange'
-};
+const optionsStatus = [
+  { label: 'Alive', value: 'alive', color: 'green' },
+  { label: 'Dead', value: 'dead', color: 'red' },
+  { label: 'Unknown', value: 'unknown', color: 'orange' }
+];
 
 export const PersonCard = ({
   name,
@@ -32,8 +32,39 @@ export const PersonCard = ({
   imageSrc,
   imageSrcAlt
 }: IPersonCardProps) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [currentName, setCurrentName] = useState(name);
+  const [currentLocation, setCurrentLocation] =
+    useState(location);
+  const [statusValue, setStatusValue] = useState(
+    status.toLowerCase()
+  );
+  const [nameError, setNameError] = useState('');
+  const [locationError, setLocationError] = useState('');
+
+  const handleSaveChange = () => {
+    setIsEdit(false);
+  };
+
+  const handleEditCard = () => {
+    setIsEdit(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEdit(false);
+    setNameError('');
+    setLocationError('');
+    setCurrentName(name);
+    setCurrentLocation(location);
+    setStatusValue(status.toLocaleLowerCase());
+  };
+
+  const className = `person-card ${
+    isEdit ? 'person-card--edit' : ''
+  }`;
+
   return (
-    <div className='person-card'>
+    <div className={className}>
       <div className='person-card__image'>
         <img
           src={imageSrc}
@@ -44,9 +75,97 @@ export const PersonCard = ({
         />
       </div>
       <div className='person-card__body'>
-        <div className='person-card__name'>
-          <p>{name}</p>
+        <div className='person-card__header'>
+          {isEdit ? (
+            <div className='person-card__name-inner'>
+              <Input
+                variant='personEdit'
+                value={currentName}
+                placeholder=''
+                onChange={(e) => {
+                  setCurrentName(e.target.value);
+                  if (e.target.value.length >= 1)
+                    setNameError('');
+                }}
+                onBlur={(e) => {
+                  if (e.target.value.trim().length < 1)
+                    setNameError(
+                      'Имя не может быть пустым'
+                    );
+                }}
+              />
+              <div className='person-card__error'>
+                {nameError}
+              </div>
+            </div>
+          ) : (
+            <p className='person-card__name'>
+              {currentName}
+            </p>
+          )}
+
+          <div className='person-card__actions'>
+            {isEdit ? (
+              <>
+                <button
+                  className='person-card__actions-close'
+                  onClick={handleCancelEdit}
+                >
+                  <img
+                    src='src/assets/icons/person-edit-close.svg'
+                    alt=''
+                    width={24}
+                    height={24}
+                  />
+                </button>
+                <button
+                  className='person-card__actions-done'
+                  onClick={handleSaveChange}
+                  disabled={
+                    Boolean(nameError) ||
+                    Boolean(locationError) ||
+                    currentName.length < 1 ||
+                    currentLocation.length < 1
+                  }
+                >
+                  <img
+                    src='src/assets/icons/check-edit.svg'
+                    alt=''
+                    width={24}
+                    height={24}
+                  />
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className='person-card__actions-close'
+                  onClick={handleCancelEdit}
+                >
+                  <img
+                    src='src/assets/icons/person-edit-close.svg'
+                    alt=''
+                    width={24}
+                    height={24}
+                  />
+                </button>
+
+                <button
+                  className='person-card__actions-edit'
+                  onClick={handleEditCard}
+                >
+                  <img
+                    src='src/assets/icons/person-edit.svg'
+                    alt=''
+                    width={17}
+                    height={17}
+                  />
+                </button>
+              </>
+            )}
+          </div>
         </div>
+
         <ul className='person-card__list'>
           <li className='person-card__item'>
             <p className='person-card__title'>Gender</p>
@@ -58,19 +177,67 @@ export const PersonCard = ({
           </li>
           <li className='person-card__item'>
             <p className='person-card__title'>Location</p>
-            <p className='person-card__view'>{location}</p>
+            {isEdit ? (
+              <div className='person-card__view-inner'>
+                <Input
+                  variant='small'
+                  value={currentLocation}
+                  placeholder=''
+                  onChange={(e) => {
+                    setCurrentLocation(e.target.value);
+                    if (e.target.value.trim().length >= 1)
+                      setLocationError('');
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value.length < 1)
+                      setLocationError(
+                        'Локация не может быть пустой'
+                      );
+                  }}
+                />
+                <div className='person-card__error'>
+                  {locationError}
+                </div>
+              </div>
+            ) : (
+              <p className='person-card__view'>
+                {currentLocation}
+              </p>
+            )}
           </li>
+
           <li className='person-card__item'>
             <p className='person-card__title'>Status</p>
-            <p className='person-card__view'>
-              {status}
-              <span
-                className='dot'
-                style={{
-                  backgroundColor: statusColorMap[status]
-                }}
-              ></span>
-            </p>
+
+            {isEdit ? (
+              <Dropdown
+                variant='small'
+                options={optionsStatus}
+                defaultValue={statusValue}
+                onChange={(value) =>
+                  setStatusValue(
+                    value.toString().toLowerCase()
+                  )
+                }
+              />
+            ) : (
+              <p className='person-card__view'>
+                {
+                  optionsStatus.find(
+                    (option) => option.value === statusValue
+                  )?.label
+                }
+                <span
+                  className='dot'
+                  style={{
+                    backgroundColor: optionsStatus.find(
+                      (option) =>
+                        option.value === statusValue
+                    )?.color
+                  }}
+                />
+              </p>
+            )}
           </li>
         </ul>
       </div>

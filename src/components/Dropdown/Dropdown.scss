@@ -3,10 +3,12 @@
   cursor: pointer;
   min-width: 240px; // по умолчанию — большой
   max-width: 240px;
+  background-color: #fff;
 
   &--small {
     min-width: 94px;
     max-width: 94px;
+    border: none;
   }
 
   &__button,
@@ -15,6 +17,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    outline: none;
   }
 
   &__button {
@@ -53,10 +56,12 @@
       border-left-width: 3px;
       border-right-width: 3px;
       border-top-width: 3px;
+      visibility: hidden;
     }
 
     &.active {
       transform: rotate(180deg);
+      visibility: visible;
     }
   }
 
@@ -72,19 +77,19 @@
 
   &__list {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 7px);
     width: 100%;
     max-width: 240px;
     border: 1px solid #00000061;
     border-radius: 6px;
+    background-color: #fff;
   }
 
   &__item {
     padding: 10px 14px;
-
     font-size: 16px;
     color: #00000099;
-    border-radius: 6px;
+    border-radius: 4px;
 
     .dropdown--small & {
       padding: 5px;
@@ -95,7 +100,7 @@
     }
 
     &:hover,
-    &:active {
+    &:focus {
       background-color: #b2b6ba;
     }
   }

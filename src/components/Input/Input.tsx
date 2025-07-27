@@ -1,7 +1,7 @@
 import './Input.scss';
 import classNames from 'classnames';
 
-type InputVariant = 'default' | 'personEdit';
+type InputVariant = 'default' | 'personEdit' | 'small';
 
 export interface IInputProps {
   variant?: InputVariant;
@@ -10,18 +10,21 @@ export interface IInputProps {
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export const Input: React.FC<IInputProps> = ({
   variant = 'default',
   value,
   placeholder,
-  onChange
+  onChange,
+  onBlur
 }) => {
   return (
     <div
       className={classNames('input', {
-        'input--person-edit': variant === 'personEdit'
+        'input--person-edit': variant === 'personEdit',
+        'input--small': variant === 'small'
       })}
     >
       <div className='input__inner'>
@@ -38,9 +41,10 @@ export const Input: React.FC<IInputProps> = ({
         <input
           className='input__form'
           type='text'
-          placeholder={placeholder || 'Filter by name...'}
+          placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
         />
       </div>
     </div>
