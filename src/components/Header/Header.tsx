@@ -1,4 +1,6 @@
 import './Header.scss';
+import imageHeader from '/src/assets/images/header-logo/1.svg';
+
 import { Link } from 'react-router-dom';
 
 export const Header = () => {
@@ -7,7 +9,7 @@ export const Header = () => {
       <div className='header__inner container'>
         <Link to='/'>
           <img
-            src='/src/assets/images/header-logo/1.svg'
+            src={imageHeader}
             alt=''
             width={46}
             height={49}

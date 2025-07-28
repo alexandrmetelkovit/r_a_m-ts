@@ -26,46 +26,27 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   onChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<
-    string | number | null
-  >(
+  const [selectedOption, setSelectedOption] = useState<string | number | null>(
     defaultValue || (variant === 'small' ? 'unknown' : null)
   );
-  const dropdownInnerRef = useRef<HTMLDivElement | null>(
-    null
-  );
+  const dropdownInnerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     function handleDocumentClick(event: MouseEvent) {
-      if (
-        dropdownInnerRef.current &&
-        !dropdownInnerRef.current.contains(
-          event.target as Node
-        )
-      ) {
+      if (dropdownInnerRef.current && !dropdownInnerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
 
-    document.addEventListener(
-      'mousedown',
-      handleDocumentClick
-    );
+    document.addEventListener('mousedown', handleDocumentClick);
     return () => {
-      document.removeEventListener(
-        'mousedown',
-        handleDocumentClick
-      );
+      document.removeEventListener('mousedown', handleDocumentClick);
     };
   }, []);
 
-  const selected = options.find(
-    (option) => option.value === selectedOption
-  );
+  const selected = options.find((option) => option.value === selectedOption);
 
-  const className = `dropdown${
-    variant === 'small' ? ' dropdown--small' : ''
-  }`;
+  const className = `dropdown${variant === 'small' ? ' dropdown--small' : ''}`;
 
   const handleClose = () => {
     setIsOpen(!isOpen);
