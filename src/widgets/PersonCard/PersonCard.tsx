@@ -78,8 +78,10 @@ export const PersonCard = ({
   const handleStatusChange = (value: string | number) =>
     setStatusValue(value.toString().toLowerCase());
 
-  const findStatusOption = (value: string) =>
-    optionsStatus.find((option) => option.value === value);
+  const findStatusOption = (value: string) => {
+    const option = optionsStatus.find((option) => option.value === value);
+    return option?.label;
+  };
 
   const getStatusColor = (statusValue: string) => {
     const option = optionsStatus.find((option) => option.value === statusValue);
@@ -259,7 +261,7 @@ export const PersonCard = ({
               />
             ) : (
               <p className='person-card__view'>
-                {findStatusOption(statusValue)?.label}
+                {findStatusOption(statusValue)}
                 <span
                   className='dot'
                   style={{
