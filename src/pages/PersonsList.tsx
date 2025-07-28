@@ -1,6 +1,7 @@
-import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import './PersonsList.scss';
+import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import imageSrcOne from '../assets/images/person-card/1.jpg';
+import personsListImage from '../assets/images/persons-list.png';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 
 const arrPerson: IPersonCardProps[] = [
@@ -20,7 +21,7 @@ export const Personslist = () => {
     <div className='persons-list container'>
       <div className='persons-list__image'>
         <img
-          src='/src/assets/images/persons-list.png'
+          src={personsListImage}
           alt=''
           width={600}
           height={200}
