@@ -13,16 +13,18 @@ interface IDropdownOption {
 export interface IDropdownProps {
   options: IDropdownOption[];
   variant?: DropdownVariant;
-  defaultValue?: string;
+  value?: string;
+  defaultValue?: string | number;
   selectTitle?: string;
   onChange?: (value: string | number) => void;
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
-  selectTitle,
   options,
   variant,
+  value,
   defaultValue,
+  selectTitle,
   onChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +46,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     };
   }, []);
 
-  const selected = options.find((option) => option.value === selectedOption);
+  const currentValue = value !== undefined ? value : selectedOption;
+
+  const selected = options.find((option) => option.value === (value ?? currentValue));
 
   const className = `dropdown${variant === 'small' ? ' dropdown--small' : ''}`;
 
@@ -93,7 +97,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
                 key={value}
                 className='dropdown__item'
                 onClick={() => {
-                  setSelectedOption(value);
+                  if (value === undefined) {
+                    setSelectedOption(value);
+                  }
                   onChange?.(value);
                   handleClose();
                 }}

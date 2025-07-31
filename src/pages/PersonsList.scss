@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-block: 20px;
+  row-gap: 20px;
 
   &__image {
     max-width: 100%;
@@ -10,10 +10,8 @@
   }
 
   &__body {
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    max-width: 100%;
+    display: grid;
+    row-gap: 28px;
+    width: 100%;
   }
 }

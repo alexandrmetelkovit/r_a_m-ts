@@ -1,10 +1,12 @@
 .input {
-  max-width: 240px;
+  max-width: 312px;
   min-width: 110px;
+  max-height: 56px;
   border: 1px solid #00000061;
   border-radius: 6px;
   color: #00000099;
   padding: 16px;
+  transition-duration: 0.2s ease-in-out;
 
   &--person-edit,
   &--small {
@@ -13,11 +15,8 @@
     max-width: 176px;
   }
 
-  &--small {
-    max-width: 115px;
-  }
-
   &__inner {
+    min-width: 208px;
     display: flex;
     align-items: center;
     column-gap: 8px;
@@ -32,13 +31,16 @@
   &__form {
     max-width: 186px;
     min-width: 101px;
+    width: 100%;
     padding: 0;
     font-family: 'Roboto', 'sans-serif';
+    font-size: 16px;
     border: none;
     outline: none;
 
     .input--person-edit &,
     .input--small & {
+      max-width: 176px;
       font-size: 20px;
       font-weight: 500;
       letter-spacing: 0.15px;
@@ -47,9 +49,16 @@
     }
 
     .input--small & {
+      max-width: 115px;
       font-size: 14px;
       font-weight: 400;
       color: #00000099;
     }
+  }
+  &__form:focus {
+    // border-bottom: 1px solid #000;
+  }
+  &__form:hover {
+    border-bottom: 1px solid #000;
   }
 }
