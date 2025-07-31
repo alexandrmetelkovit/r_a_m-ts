@@ -11,6 +11,9 @@ export const FilterPanel = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const placeholderInput = 'Filter by name...';
+  const placeholderSpecies = 'Species';
+  const placeholderGender = 'Gender';
+  const placeholderStatus = 'Status';
 
   const handleNameSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -38,21 +41,21 @@ export const FilterPanel = () => {
       <Dropdown
         variant='default'
         options={speciesOptions}
-        selectTitle='Species'
+        placeholder={placeholderSpecies}
         value={selectedSpecies}
         onChange={handleSpeciesChange}
       />
       <Dropdown
         variant='default'
         options={genderOptions}
-        selectTitle='Gender'
+        placeholder={placeholderGender}
         value={selectedGender}
         onChange={handleGenderChange}
       />
       <Dropdown
         variant='default'
         options={statusOptions}
-        selectTitle='Status'
+        placeholder={placeholderStatus}
         value={selectedStatus}
         onChange={handleStatusChange}
       />

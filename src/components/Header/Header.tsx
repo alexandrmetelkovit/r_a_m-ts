@@ -1,5 +1,5 @@
+import imageHeader from '../../assets/images/header-logo/1.svg';
 import './Header.scss';
-import imageHeader from '/src/assets/images/header-logo/1.svg';
 
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ export const Header = () => {
         <Link to='/'>
           <img
             src={imageHeader}
-            alt=''
+            alt='Логотип приложения'
             width={46}
             height={49}
             loading='lazy'

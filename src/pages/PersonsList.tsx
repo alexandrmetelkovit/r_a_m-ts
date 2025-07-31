@@ -1,11 +1,9 @@
-import './PersonsList.scss';
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
 import imageSrcOne from '../assets/images/person-card/1.jpg';
 import personsListImage from '../assets/images/persons-list.png';
-import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
-import { Dropdown } from '../components/Dropdown/Dropdown';
-import { speciesOptions } from '../constants/filterOptions';
+import './PersonsList.scss';
 
 const arrPerson: IPersonCardProps[] = [
   {
