@@ -2,16 +2,21 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  row-gap: 20px;
 
   &__image {
-    max-width: 100%;
+    max-width: 600px;
     min-width: 312px;
   }
 
   &__body {
     display: grid;
     row-gap: 28px;
-    width: 100%;
+    padding-block: 20px;
+  }
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
   }
 }
