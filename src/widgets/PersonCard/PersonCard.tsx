@@ -209,7 +209,7 @@ export const PersonCard = ({
               <Dropdown
                 variant='small'
                 options={optionsStatus}
-                defaultValue={statusValue}
+                value={statusValue}
                 onChange={handleStatusChange}
               />
             ) : (

@@ -1,5 +1,5 @@
-import './Input.scss';
 import classNames from 'classnames';
+import './Input.scss';
 
 type InputVariant = 'default' | 'personEdit' | 'small';
 
@@ -7,9 +7,7 @@ export interface IInputProps {
   variant?: InputVariant;
   value?: string | number;
   placeholder?: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 

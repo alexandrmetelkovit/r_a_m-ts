@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import './Dropdown.scss';
 import classNames from 'classnames';
+import './Dropdown.scss';
 
 type DropdownVariant = 'default' | 'small';
 
@@ -13,16 +13,18 @@ interface IDropdownOption {
 export interface IDropdownProps {
   options: IDropdownOption[];
   variant?: DropdownVariant;
-  defaultValue?: string;
-  selectTitle?: string;
+  value?: string;
+  defaultValue?: string | number;
+  placeholder?: string;
   onChange?: (value: string | number) => void;
 }
 
 export const Dropdown: React.FC<IDropdownProps> = ({
-  selectTitle,
   options,
   variant,
+  value,
   defaultValue,
+  placeholder,
   onChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +46,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
     };
   }, []);
 
-  const selected = options.find((option) => option.value === selectedOption);
+  const currentValue = value || selectedOption;
+
+  const selected = options.find((option) => option.value === currentValue);
 
   const className = `dropdown${variant === 'small' ? ' dropdown--small' : ''}`;
 
@@ -72,7 +76,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
             )}
           </div>
         ) : (
-          selectTitle
+          placeholder
         )}
         <span
           className={classNames('dropdown__arrow', {

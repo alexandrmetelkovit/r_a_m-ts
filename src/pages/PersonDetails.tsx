@@ -1,6 +1,6 @@
-import './PersonDetails.scss';
-import { Loader } from '../components/Loader/Loader';
 import { Link } from 'react-router-dom';
+import { Loader } from '../components/Loader/Loader';
+import './PersonDetails.scss';
 
 export const PersonDetails = () => {
   return (

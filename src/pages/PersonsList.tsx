@@ -1,8 +1,9 @@
-import './PersonsList.scss';
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
+import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
 import imageSrcOne from '../assets/images/person-card/1.jpg';
 import personsListImage from '../assets/images/persons-list.png';
-import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+import './PersonsList.scss';
 
 const arrPerson: IPersonCardProps[] = [
   {
@@ -29,6 +30,7 @@ export const Personslist = () => {
         />
       </div>
       <div className='persons-list__body'>
+        <FilterPanel />
         {arrPerson.map((item, index) => (
           <PersonCard
             key={index}
