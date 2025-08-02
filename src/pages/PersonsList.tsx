@@ -1,23 +1,28 @@
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
-import imageSrcOne from '../assets/images/person-card/1.jpg';
 import personsListImage from '../assets/images/persons-list.png';
 import './PersonsList.scss';
-
-const arrPerson: IPersonCardProps[] = [
-  {
-    name: 'Rick Sanchez',
-    gender: 'Male',
-    species: 'Human',
-    location: 'Earth',
-    status: 'Alive',
-    imageSrc: imageSrcOne,
-    imageSrcAlt: 'картинка персонажа рик'
-  }
-];
+import { useEffect, useState } from 'react';
+import { getCharacters, mapperCallback } from '../lib/api';
+import { showToast } from '../lib/toast';
+import { getErrorMessage } from '../lib/errorUtils';
 
 export const Personslist = () => {
+  const [persons, setPersons] = useState<IPersonCardProps[]>([]);
+
+  useEffect(() => {
+    getCharacters()
+      .then((apiPersons) => {
+        setPersons(mapperCallback(apiPersons));
+      })
+      .catch((error: unknown) => {
+        const message = getErrorMessage(error);
+
+        showToast(message, 'error');
+      });
+  }, []);
+
   return (
     <div className='persons-list container'>
       <div className='persons-list__image'>
@@ -31,12 +36,14 @@ export const Personslist = () => {
       </div>
       <div className='persons-list__body'>
         <FilterPanel />
-        {arrPerson.map((item, index) => (
-          <PersonCard
-            key={index}
-            {...item}
-          />
-        ))}
+        <div className='persons-list__cards'>
+          {persons.map((item, index) => (
+            <PersonCard
+              key={index}
+              {...item}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
