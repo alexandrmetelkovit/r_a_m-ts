@@ -26,11 +26,15 @@
     font-weight: 500;
     letter-spacing: 0.15px;
     color: #000000de;
-    max-height: 30px;
+    max-width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     &-inner {
       display: flex;
       flex-direction: column;
+      max-height: 100%;
     }
   }
 
@@ -39,6 +43,7 @@
     align-items: center;
     max-width: 50px;
     max-height: 24px;
+    min-height: 17px;
     background-color: #ffffff;
 
     &-close,
@@ -70,8 +75,8 @@
   }
 
   &__body {
-    max-width: 208px;
     min-width: 240px;
+    max-width: 208px;
     display: grid;
     row-gap: 10px;
   }

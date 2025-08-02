@@ -114,7 +114,9 @@ export const PersonCard = ({
               <div className='person-card__error'>{nameError}</div>
             </div>
           ) : (
-            <p className='person-card__name'>{currentName}</p>
+            <div className='person-card__name-inner'>
+              <p className='person-card__name'>{currentName}</p>
+            </div>
           )}
 
           <div className='person-card__actions'>
