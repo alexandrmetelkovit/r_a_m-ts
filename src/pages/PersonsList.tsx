@@ -4,7 +4,9 @@ import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
 import personsListImage from '../assets/images/persons-list.png';
 import './PersonsList.scss';
 import { useEffect, useState } from 'react';
-import { getCharacters, type IApiPersons } from '../lib/api';
+import { getCharacters, mapperCallback } from '../lib/api';
+import { showToast } from '../lib/toast';
+import { getErrorMessage } from '../lib/errorUtils';
 
 export const Personslist = () => {
   const [persons, setPersons] = useState<IPersonCardProps[]>([]);
@@ -12,18 +14,13 @@ export const Personslist = () => {
   useEffect(() => {
     getCharacters()
       .then((apiPersons) => {
-        const mapped = apiPersons.map((person: IApiPersons) => ({
-          name: person.name,
-          gender: person.gender,
-          species: person.species,
-          location: person.location?.name || '',
-          status: person.status as 'Alive' | 'Dead' | 'Unknown',
-          imageSrc: person.image,
-          imageSrcAlt: person.name
-        }));
-        setPersons(mapped);
+        setPersons(mapperCallback(apiPersons));
       })
-      .catch((error) => console.log(error, 'ошибка загрузки'));
+      .catch((error: unknown) => {
+        const message = getErrorMessage(error);
+
+        showToast(message, 'error');
+      });
   }, []);
 
   return (

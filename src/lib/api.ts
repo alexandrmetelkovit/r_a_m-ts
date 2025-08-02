@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 
 const BASE_URL = 'https://rickandmortyapi.com/api';
 const CHARACTER_ENDPOINT = '/character';
@@ -13,12 +14,19 @@ export interface IApiPersons {
   image: string;
 }
 
+export const mapperCallback = (persons: IApiPersons[]): IPersonCardProps[] => {
+  return persons.map((person) => ({
+    name: person.name,
+    gender: person.gender,
+    species: person.species,
+    location: person.location?.name || '',
+    status: person.status as 'Alive' | 'Dead' | 'Unknown',
+    imageSrc: person.image,
+    imageSrcAlt: person.name
+  }));
+};
+
 export const getCharacters = async (params = {}) => {
-  try {
-    const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
-    return response.data.results;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
+  return response.data.results;
 };
