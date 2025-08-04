@@ -1,33 +1,48 @@
-import { useState } from 'react';
 import './FilterPanel.scss';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
 import { Input } from '../../components/Input/Input';
 import { genderOptions, speciesOptions, statusOptions } from '../../constants/filterOptions';
 
-export const FilterPanel = () => {
-  const [name, setName] = useState('');
-  const [selectedSpecies, setSelectedSpecies] = useState('');
-  const [selectedGender, setSelectedGender] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+interface IFilterPanelProps {
+  name: string;
+  selectedSpecies: string;
+  selectedGender: string;
+  selectedStatus: string;
 
+  onNameChange: (value: string) => void;
+  onSpeciesChange: (value: string) => void;
+  onGenderChange: (value: string) => void;
+  onStatusChange: (value: string) => void;
+}
+
+export const FilterPanel = ({
+  name,
+  selectedSpecies,
+  selectedGender,
+  selectedStatus,
+  onNameChange,
+  onSpeciesChange,
+  onGenderChange,
+  onStatusChange
+}: IFilterPanelProps) => {
   const placeholderInput = 'Filter by name...';
   const placeholderSpecies = 'Species';
   const placeholderGender = 'Gender';
   const placeholderStatus = 'Status';
 
   const handleNameSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    onNameChange(e.target.value);
   };
   const handleSpeciesChange = (value: string | number) => {
-    setSelectedSpecies(String(value));
+    onSpeciesChange(String(value));
   };
 
   const handleGenderChange = (value: string | number) => {
-    setSelectedGender(String(value));
+    onGenderChange(String(value));
   };
 
   const handleStatusChange = (value: string | number) => {
-    setSelectedStatus(String(value));
+    onStatusChange(String(value));
   };
 
   return (

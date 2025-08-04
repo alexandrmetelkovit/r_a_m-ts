@@ -16,6 +16,7 @@ export interface IApiPersons {
 
 export const mapperCallback = (persons: IApiPersons[]): IPersonCardProps[] => {
   return persons.map((person) => ({
+    id: person.id,
     name: person.name,
     gender: person.gender,
     species: person.species,

@@ -4,9 +4,7 @@ interface ILoaderTextProps {
   text: string;
 }
 
-export const Loader: React.FC<ILoaderTextProps> = ({
-  text
-}) => {
+export const Loader = ({ text }: ILoaderTextProps) => {
   return (
     <div className='loader'>
       <img
