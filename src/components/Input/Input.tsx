@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import './Input.scss';
-import iconsSearchFilter from '../../assets/icons/search-filter.svg';
+import SearchFilterIcon from '../../assets/icons/search-filter.svg?react';
 
 type InputVariant = 'default' | 'personEdit' | 'small';
 
@@ -28,13 +28,10 @@ export const Input = ({
     >
       <div className='input__inner'>
         {variant === 'default' && (
-          <img
+          <SearchFilterIcon
             className='input__image'
-            src={iconsSearchFilter}
-            alt=''
             width={24}
             height={24}
-            loading='lazy'
           />
         )}
         <input

@@ -56,12 +56,18 @@ export const Personslist = () => {
           onStatusChange={setFilterStatus}
         />
         <div className='persons-list__cards'>
-          {persons.map((item) => (
-            <PersonCard
-              key={item.id}
-              {...item}
-            />
-          ))}
+          {persons.length === 0 ? (
+            <div className='persons-list__not-found'>
+              <p>Персонажи не найдены по выбранным фильтрам</p>
+            </div>
+          ) : (
+            persons.map((item) => (
+              <PersonCard
+                key={item.id}
+                {...item}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
