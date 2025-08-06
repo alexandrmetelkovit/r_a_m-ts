@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import './Input.scss';
+import SearchFilterIcon from '../../assets/icons/search-filter.svg?react';
 
 type InputVariant = 'default' | 'personEdit' | 'small';
 
@@ -11,13 +12,13 @@ export interface IInputProps {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export const Input: React.FC<IInputProps> = ({
+export const Input = ({
   variant = 'default',
   value,
   placeholder,
   onChange,
   onBlur
-}) => {
+}: IInputProps) => {
   return (
     <div
       className={classNames('input', {
@@ -27,13 +28,10 @@ export const Input: React.FC<IInputProps> = ({
     >
       <div className='input__inner'>
         {variant === 'default' && (
-          <img
+          <SearchFilterIcon
             className='input__image'
-            src='./src/assets/icons/search-filter.svg'
-            alt=''
             width={24}
             height={24}
-            loading='lazy'
           />
         )}
         <input

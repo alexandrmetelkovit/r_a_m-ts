@@ -11,8 +11,18 @@ import { getErrorMessage } from '../lib/errorUtils';
 export const Personslist = () => {
   const [persons, setPersons] = useState<IPersonCardProps[]>([]);
 
+  const [filterName, setFilterName] = useState('');
+  const [filterSpecies, setFilterSpecies] = useState('');
+  const [filterGender, setFilterGender] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+
   useEffect(() => {
-    getCharacters()
+    getCharacters({
+      name: filterName,
+      species: filterSpecies,
+      gender: filterGender,
+      status: filterStatus
+    })
       .then((apiPersons) => {
         setPersons(mapperCallback(apiPersons));
       })
@@ -21,28 +31,43 @@ export const Personslist = () => {
 
         showToast(message, 'error');
       });
-  }, []);
+  }, [filterName, filterSpecies, filterGender, filterStatus]);
 
   return (
     <div className='persons-list container'>
       <div className='persons-list__image'>
         <img
           src={personsListImage}
-          alt=''
+          alt='Картинка Рик и Морти'
           width={600}
           height={200}
           loading='lazy'
         />
       </div>
       <div className='persons-list__body'>
-        <FilterPanel />
+        <FilterPanel
+          name={filterName}
+          selectedSpecies={filterSpecies}
+          selectedGender={filterGender}
+          selectedStatus={filterStatus}
+          onNameChange={setFilterName}
+          onSpeciesChange={setFilterSpecies}
+          onGenderChange={setFilterGender}
+          onStatusChange={setFilterStatus}
+        />
         <div className='persons-list__cards'>
-          {persons.map((item, index) => (
-            <PersonCard
-              key={index}
-              {...item}
-            />
-          ))}
+          {persons.length === 0 ? (
+            <div className='persons-list__not-found'>
+              <p>Персонажи не найдены по выбранным фильтрам</p>
+            </div>
+          ) : (
+            persons.map((item) => (
+              <PersonCard
+                key={item.id}
+                {...item}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

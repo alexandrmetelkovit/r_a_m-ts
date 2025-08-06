@@ -16,6 +16,7 @@ export interface IApiPersons {
 
 export const mapperCallback = (persons: IApiPersons[]): IPersonCardProps[] => {
   return persons.map((person) => ({
+    id: person.id,
     name: person.name,
     gender: person.gender,
     species: person.species,
@@ -27,6 +28,13 @@ export const mapperCallback = (persons: IApiPersons[]): IPersonCardProps[] => {
 };
 
 export const getCharacters = async (params = {}) => {
-  const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
-  return response.data.results;
+  try {
+    const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
+    return response.data.results;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return [];
+    }
+    throw error;
+  }
 };

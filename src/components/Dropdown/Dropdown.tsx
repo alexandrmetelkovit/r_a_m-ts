@@ -19,14 +19,14 @@ export interface IDropdownProps {
   onChange?: (value: string | number) => void;
 }
 
-export const Dropdown: React.FC<IDropdownProps> = ({
+export const Dropdown = ({
   options,
   variant,
   value,
   defaultValue,
   placeholder,
   onChange
-}) => {
+}: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | number | null>(
     defaultValue || (variant === 'small' ? 'unknown' : null)

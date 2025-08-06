@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type Key } from 'react';
 import './PersonCard.scss';
 import { Input } from '../../components/Input/Input';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
@@ -15,6 +15,7 @@ interface IPersonCardAttributes {
 }
 
 export interface IPersonCardProps extends IPersonCardAttributes {
+  id: Key | null | undefined;
   name: string;
   imageSrc: string;
   imageSrcAlt: string;
