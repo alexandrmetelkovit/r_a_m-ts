@@ -28,13 +28,6 @@ export const mapperCallback = (persons: IApiPersons[]): IPersonCardProps[] => {
 };
 
 export const getCharacters = async (params = {}) => {
-  try {
-    const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
-    return response.data.results;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      return [];
-    }
-    throw error;
-  }
+  const response = await axios.get(`${BASE_URL}${CHARACTER_ENDPOINT}`, { params });
+  return response.data;
 };

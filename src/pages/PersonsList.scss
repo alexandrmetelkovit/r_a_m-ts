@@ -17,7 +17,14 @@
   &__cards {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 28px;
+
+    &-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &__not-found {
