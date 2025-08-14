@@ -1,15 +1,20 @@
-import { PersonCard } from '../widgets/PersonCard/PersonCard';
+import { useEffect, useState } from 'react';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
 import personsListImage from '../assets/images/persons-list.png';
 import './PersonsList.scss';
-import { useEffect, useState } from 'react';
 import { getCharacters, mapperCallback } from '../lib/api';
-import { showToast } from '../lib/toast';
 import { getErrorMessage } from '../lib/errorUtils';
+import { showToast } from '../lib/toast';
+import { Loader } from '../components/Loader/Loader';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const Personslist = () => {
   const [persons, setPersons] = useState<IPersonCardProps[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [filterName, setFilterName] = useState('');
   const [filterSpecies, setFilterSpecies] = useState('');
@@ -17,21 +22,54 @@ export const Personslist = () => {
   const [filterStatus, setFilterStatus] = useState('');
 
   useEffect(() => {
+    setIsLoading(true);
+
     getCharacters({
+      page: page,
       name: filterName,
       species: filterSpecies,
       gender: filterGender,
       status: filterStatus
     })
       .then((apiPersons) => {
-        setPersons(mapperCallback(apiPersons));
-      })
-      .catch((error: unknown) => {
-        const message = getErrorMessage(error);
+        const mapped = mapperCallback(apiPersons.results || []);
 
-        showToast(message, 'error');
+        if (page === 1) {
+          setPersons(mapped);
+        } else {
+          setPersons((prev) => [...prev, ...mapped]);
+        }
+
+        if (apiPersons.info.next !== null) {
+          setHasMore(true);
+        } else {
+          setHasMore(false);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        if (error.response?.status === 404) {
+          setPersons([]);
+          setHasMore(false);
+        } else {
+          const message = getErrorMessage(error);
+          showToast(message, 'error');
+        }
+        setIsLoading(false);
       });
+  }, [page, filterName, filterSpecies, filterGender, filterStatus]);
+
+  useEffect(() => {
+    setPage(1);
+    setPersons([]);
+    setHasMore(true);
+    setIsLoading(true);
   }, [filterName, filterSpecies, filterGender, filterStatus]);
+
+  const handleNewPage = () => {
+    setPage((prev) => prev + 1);
+  };
 
   return (
     <div className='persons-list container'>
@@ -55,18 +93,34 @@ export const Personslist = () => {
           onGenderChange={setFilterGender}
           onStatusChange={setFilterStatus}
         />
-        <div className='persons-list__cards'>
-          {persons.length === 0 ? (
+
+        <div className='persons-list__cards-inner'>
+          {isLoading && page === 1 ? (
+            <Loader variant='default' />
+          ) : persons.length === 0 ? (
             <div className='persons-list__not-found'>
               <p>Персонажи не найдены по выбранным фильтрам</p>
             </div>
           ) : (
-            persons.map((item) => (
-              <PersonCard
-                key={item.id}
-                {...item}
-              />
-            ))
+            <InfiniteScroll
+              className='persons-list__cards'
+              dataLength={persons.length}
+              next={() => {
+                if (!isLoading) {
+                  setIsLoading(true);
+                  handleNewPage();
+                }
+              }}
+              hasMore={hasMore}
+              loader={<Loader variant='small' />}
+            >
+              {persons.map((person) => (
+                <PersonCard
+                  key={person.id}
+                  {...person}
+                />
+              ))}
+            </InfiniteScroll>
           )}
         </div>
       </div>
