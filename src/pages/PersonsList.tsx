@@ -32,7 +32,10 @@ export const Personslist = () => {
       status: filterStatus
     })
       .then((apiPersons) => {
-        const mapped = mapperCallback(apiPersons.results || []);
+        const mapped = mapperCallback(apiPersons.results || []).map((person) => ({
+          ...person,
+          onSave: handleSavePerson
+        }));
 
         if (page === 1) {
           setPersons(mapped);
@@ -69,6 +72,21 @@ export const Personslist = () => {
 
   const handleNewPage = () => {
     setPage((prev) => prev + 1);
+  };
+
+  const handleSavePerson = (
+    id: number,
+    newName: string,
+    newLocation: string,
+    newStatus: string
+  ) => {
+    setPersons((prev) =>
+      prev.map((person) =>
+        person.id === id
+          ? { ...person, name: newName, location: newLocation, status: newStatus }
+          : person
+      )
+    );
   };
 
   return (
@@ -118,6 +136,7 @@ export const Personslist = () => {
                 <PersonCard
                   key={person.id}
                   {...person}
+                  onSave={handleSavePerson}
                 />
               ))}
             </InfiniteScroll>

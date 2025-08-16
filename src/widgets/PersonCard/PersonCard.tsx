@@ -1,4 +1,4 @@
-import { useState, type Key } from 'react';
+import { useState } from 'react';
 import './PersonCard.scss';
 import { Input } from '../../components/Input/Input';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
@@ -11,14 +11,15 @@ interface IPersonCardAttributes {
   gender: string;
   species: string;
   location: string;
-  status: 'Alive' | 'Dead' | 'Unknown';
+  status: string;
 }
 
 export interface IPersonCardProps extends IPersonCardAttributes {
-  id: Key | null | undefined;
+  id: number;
   name: string;
   imageSrc: string;
   imageSrcAlt: string;
+  onSave: (id: number, newName: string, newLocation: string, newStatus: string) => void;
 }
 
 const optionsStatus = [
@@ -28,23 +29,27 @@ const optionsStatus = [
 ];
 
 export const PersonCard = ({
+  id,
   name,
   gender,
   species,
   location,
   status,
   imageSrc,
-  imageSrcAlt
+  imageSrcAlt,
+  onSave
 }: IPersonCardProps) => {
   const [isEdit, setIsEdit] = useState(false);
+
   const [currentName, setCurrentName] = useState(name);
   const [currentLocation, setCurrentLocation] = useState(location);
-
   const [statusValue, setStatusValue] = useState(status.toLowerCase());
+
   const [nameError, setNameError] = useState('');
   const [locationError, setLocationError] = useState('');
 
   const handleSaveChange = () => {
+    onSave(id, currentName, currentLocation, statusValue);
     setIsEdit(false);
   };
 
