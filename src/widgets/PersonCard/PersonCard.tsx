@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import './PersonCard.scss';
 import { Input } from '../../components/Input/Input';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
@@ -19,7 +19,7 @@ export interface IPersonCardProps extends IPersonCardAttributes {
   name: string;
   imageSrc: string;
   imageSrcAlt: string;
-  onSave: (id: number, newName: string, newLocation: string, newStatus: string) => void;
+  onSave?: (id: number, newName: string, newLocation: string, newStatus: string) => void;
 }
 
 const optionsStatus = [
@@ -28,212 +28,216 @@ const optionsStatus = [
   { label: 'Unknown', value: 'unknown', color: 'orange' }
 ];
 
-export const PersonCard = ({
-  id,
-  name,
-  gender,
-  species,
-  location,
-  status,
-  imageSrc,
-  imageSrcAlt,
-  onSave
-}: IPersonCardProps) => {
-  const [isEdit, setIsEdit] = useState(false);
+export const PersonCard = memo(
+  ({
+    id,
+    name,
+    gender,
+    species,
+    location,
+    status,
+    imageSrc,
+    imageSrcAlt,
+    onSave
+  }: IPersonCardProps) => {
+    const [isEdit, setIsEdit] = useState(false);
 
-  const [currentName, setCurrentName] = useState(name);
-  const [currentLocation, setCurrentLocation] = useState(location);
-  const [statusValue, setStatusValue] = useState(status.toLowerCase());
+    const [currentName, setCurrentName] = useState(name);
+    const [currentLocation, setCurrentLocation] = useState(location);
+    const [statusValue, setStatusValue] = useState(status.toLowerCase());
 
-  const [nameError, setNameError] = useState('');
-  const [locationError, setLocationError] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [locationError, setLocationError] = useState('');
 
-  const handleSaveChange = () => {
-    onSave(id, currentName, currentLocation, statusValue);
-    setIsEdit(false);
-  };
+    const handleSaveChange = () => {
+      if (onSave) {
+        onSave(id, currentName, currentLocation, statusValue);
+      }
+      setIsEdit(false);
+    };
 
-  const handleEditCard = () => {
-    setIsEdit(true);
-  };
+    const handleEditCard = () => {
+      setIsEdit(true);
+    };
 
-  const handleCancelEdit = () => {
-    setIsEdit(false);
-    setNameError('');
-    setLocationError('');
-    setCurrentName(name);
-    setCurrentLocation(location);
-    setStatusValue(status.toLocaleLowerCase());
-  };
+    const handleCancelEdit = () => {
+      setIsEdit(false);
+      setNameError('');
+      setLocationError('');
+      setCurrentName(name);
+      setCurrentLocation(location);
+      setStatusValue(status.toLocaleLowerCase());
+    };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentName(e.target.value);
-    if (e.target.value.trim().length >= 1) setNameError('');
-  };
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCurrentName(e.target.value);
+      if (e.target.value.trim().length >= 1) setNameError('');
+    };
 
-  const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value.trim().length < 1) setNameError('Имя не может быть пустым');
-  };
+    const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      if (e.target.value.trim().length < 1) setNameError('Имя не может быть пустым');
+    };
 
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentLocation(e.target.value);
-    if (e.target.value.length >= 1) setLocationError('');
-  };
+    const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCurrentLocation(e.target.value);
+      if (e.target.value.length >= 1) setLocationError('');
+    };
 
-  const handleLocationBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value.trim().length < 1) setLocationError('Локация не может быть пустой');
-  };
+    const handleLocationBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      if (e.target.value.trim().length < 1) setLocationError('Локация не может быть пустой');
+    };
 
-  const handleStatusChange = (value: string | number) =>
-    setStatusValue(value.toString().toLowerCase());
+    const handleStatusChange = (value: string | number) =>
+      setStatusValue(value.toString().toLowerCase());
 
-  const label = optionsStatus.find((option) => option.value === statusValue)?.label;
+    const label = optionsStatus.find((option) => option.value === statusValue)?.label;
 
-  const color = optionsStatus.find((option) => option.value === statusValue)?.color;
+    const color = optionsStatus.find((option) => option.value === statusValue)?.color;
 
-  return (
-    <div
-      className={classNames('person-card', {
-        'person-card--edit': isEdit
-      })}
-    >
-      <div className='person-card__image'>
-        <img
-          src={imageSrc}
-          width={240}
-          height={234}
-          loading='lazy'
-          alt={imageSrcAlt}
-        />
-      </div>
-      <div className='person-card__body'>
-        <div className='person-card__header'>
-          {isEdit ? (
-            <div className='person-card__name-inner'>
-              <Input
-                variant='personEdit'
-                value={currentName}
-                placeholder=''
-                onChange={handleNameChange}
-                onBlur={handleNameBlur}
-              />
-              <div className='person-card__error'>{nameError}</div>
-            </div>
-          ) : (
-            <div className='person-card__name-inner'>
-              <p className='person-card__name'>{currentName}</p>
-            </div>
-          )}
-
-          <div className='person-card__actions'>
-            {isEdit ? (
-              <>
-                <button
-                  className='person-card__actions-close'
-                  onClick={handleCancelEdit}
-                >
-                  <CloseIcon
-                    width={24}
-                    height={24}
-                    aria-label='Закрыть редактирование'
-                  />
-                </button>
-                <button
-                  className='person-card__actions-done'
-                  onClick={handleSaveChange}
-                  disabled={
-                    Boolean(nameError) ||
-                    Boolean(locationError) ||
-                    currentName.length < 1 ||
-                    currentLocation.length < 1
-                  }
-                >
-                  <DoneIcon
-                    width={24}
-                    height={24}
-                    aria-label='Подтвердить изменения'
-                  />
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  className='person-card__actions-close'
-                  onClick={handleCancelEdit}
-                >
-                  <CloseIcon
-                    width={24}
-                    height={24}
-                    aria-label='Закрыть редактирование'
-                  />
-                </button>
-
-                <button
-                  className='person-card__actions-edit'
-                  onClick={handleEditCard}
-                >
-                  <EditIcon
-                    width={17}
-                    height={17}
-                    aria-label='Редактировать карточку'
-                  />
-                </button>
-              </>
-            )}
-          </div>
+    return (
+      <div
+        className={classNames('person-card', {
+          'person-card--edit': isEdit
+        })}
+      >
+        <div className='person-card__image'>
+          <img
+            src={imageSrc}
+            width={240}
+            height={234}
+            loading='lazy'
+            alt={imageSrcAlt}
+          />
         </div>
-
-        <ul className='person-card__list'>
-          <li className='person-card__item'>
-            <p className='person-card__title'>Gender</p>
-            <p className='person-card__view'>{gender}</p>
-          </li>
-          <li className='person-card__item'>
-            <p className='person-card__title'>Species</p>
-            <p className='person-card__view'>{species}</p>
-          </li>
-          <li className='person-card__item'>
-            <p className='person-card__title'>Location</p>
+        <div className='person-card__body'>
+          <div className='person-card__header'>
             {isEdit ? (
-              <div className='person-card__view-inner'>
+              <div className='person-card__name-inner'>
                 <Input
-                  variant='small'
-                  value={currentLocation}
+                  variant='personEdit'
+                  value={currentName}
                   placeholder=''
-                  onChange={handleLocationChange}
-                  onBlur={handleLocationBlur}
+                  onChange={handleNameChange}
+                  onBlur={handleNameBlur}
                 />
-                <div className='person-card__error'>{locationError}</div>
+                <div className='person-card__error'>{nameError}</div>
               </div>
             ) : (
-              <p className='person-card__view'>{currentLocation}</p>
+              <div className='person-card__name-inner'>
+                <p className='person-card__name'>{currentName}</p>
+              </div>
             )}
-          </li>
 
-          <li className='person-card__item'>
-            <p className='person-card__title'>Status</p>
+            <div className='person-card__actions'>
+              {isEdit ? (
+                <>
+                  <button
+                    className='person-card__actions-close'
+                    onClick={handleCancelEdit}
+                  >
+                    <CloseIcon
+                      width={24}
+                      height={24}
+                      aria-label='Закрыть редактирование'
+                    />
+                  </button>
+                  <button
+                    className='person-card__actions-done'
+                    onClick={handleSaveChange}
+                    disabled={
+                      Boolean(nameError) ||
+                      Boolean(locationError) ||
+                      currentName.length < 1 ||
+                      currentLocation.length < 1
+                    }
+                  >
+                    <DoneIcon
+                      width={24}
+                      height={24}
+                      aria-label='Подтвердить изменения'
+                    />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className='person-card__actions-close'
+                    onClick={handleCancelEdit}
+                  >
+                    <CloseIcon
+                      width={24}
+                      height={24}
+                      aria-label='Закрыть редактирование'
+                    />
+                  </button>
 
-            {isEdit ? (
-              <Dropdown
-                variant='small'
-                options={optionsStatus}
-                value={statusValue}
-                onChange={handleStatusChange}
-              />
-            ) : (
-              <p className='person-card__view'>
-                {label}
-                <span
-                  className='dot'
-                  style={{
-                    backgroundColor: color
-                  }}
+                  <button
+                    className='person-card__actions-edit'
+                    onClick={handleEditCard}
+                  >
+                    <EditIcon
+                      width={17}
+                      height={17}
+                      aria-label='Редактировать карточку'
+                    />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <ul className='person-card__list'>
+            <li className='person-card__item'>
+              <p className='person-card__title'>Gender</p>
+              <p className='person-card__view'>{gender}</p>
+            </li>
+            <li className='person-card__item'>
+              <p className='person-card__title'>Species</p>
+              <p className='person-card__view'>{species}</p>
+            </li>
+            <li className='person-card__item'>
+              <p className='person-card__title'>Location</p>
+              {isEdit ? (
+                <div className='person-card__view-inner'>
+                  <Input
+                    variant='small'
+                    value={currentLocation}
+                    placeholder=''
+                    onChange={handleLocationChange}
+                    onBlur={handleLocationBlur}
+                  />
+                  <div className='person-card__error'>{locationError}</div>
+                </div>
+              ) : (
+                <p className='person-card__view'>{currentLocation}</p>
+              )}
+            </li>
+
+            <li className='person-card__item'>
+              <p className='person-card__title'>Status</p>
+
+              {isEdit ? (
+                <Dropdown
+                  variant='small'
+                  options={optionsStatus}
+                  value={statusValue}
+                  onChange={handleStatusChange}
                 />
-              </p>
-            )}
-          </li>
-        </ul>
+              ) : (
+                <p className='person-card__view'>
+                  {label}
+                  <span
+                    className='dot'
+                    style={{
+                      backgroundColor: color
+                    }}
+                  />
+                </p>
+              )}
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
