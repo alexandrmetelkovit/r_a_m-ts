@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
 import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
@@ -21,6 +21,30 @@ export const Personslist = () => {
   const [filterGender, setFilterGender] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
 
+  const handleSavePerson = useCallback(
+    (id: number, newName: string, newLocation: string, newStatus: string) => {
+      setPersons((prev) =>
+        prev.map((person) =>
+          person.id === id
+            ? { ...person, name: newName, location: newLocation, status: newStatus }
+            : person
+        )
+      );
+    },
+    []
+  );
+
+  const handleNewPage = useCallback(() => {
+    setPage((prev) => prev + 1);
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (!isLoading) {
+      setIsLoading(true);
+      handleNewPage();
+    }
+  }, [isLoading, handleNewPage]);
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -32,7 +56,10 @@ export const Personslist = () => {
       status: filterStatus
     })
       .then((apiPersons) => {
-        const mapped = mapperCallback(apiPersons.results || []);
+        const mapped = mapperCallback(apiPersons.results || []).map((person) => ({
+          ...person,
+          onSave: handleSavePerson
+        }));
 
         if (page === 1) {
           setPersons(mapped);
@@ -58,7 +85,7 @@ export const Personslist = () => {
         }
         setIsLoading(false);
       });
-  }, [page, filterName, filterSpecies, filterGender, filterStatus]);
+  }, [page, filterName, filterSpecies, filterGender, filterStatus, handleSavePerson]);
 
   useEffect(() => {
     setPage(1);
@@ -66,10 +93,6 @@ export const Personslist = () => {
     setHasMore(true);
     setIsLoading(true);
   }, [filterName, filterSpecies, filterGender, filterStatus]);
-
-  const handleNewPage = () => {
-    setPage((prev) => prev + 1);
-  };
 
   return (
     <div className='persons-list container'>
@@ -105,12 +128,7 @@ export const Personslist = () => {
             <InfiniteScroll
               className='persons-list__cards'
               dataLength={persons.length}
-              next={() => {
-                if (!isLoading) {
-                  setIsLoading(true);
-                  handleNewPage();
-                }
-              }}
+              next={handleNext}
               hasMore={hasMore}
               loader={<Loader variant='small' />}
             >
@@ -118,6 +136,7 @@ export const Personslist = () => {
                 <PersonCard
                   key={person.id}
                   {...person}
+                  onSave={handleSavePerson}
                 />
               ))}
             </InfiniteScroll>

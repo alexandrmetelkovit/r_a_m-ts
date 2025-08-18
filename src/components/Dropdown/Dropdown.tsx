@@ -50,15 +50,15 @@ export const Dropdown = ({
 
   const selected = options.find((option) => option.value === currentValue);
 
-  const className = `dropdown${variant === 'small' ? ' dropdown--small' : ''}`;
-
   const handleClose = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <div
-      className={className}
+      className={classNames('dropdown', {
+        'dropdown--small': variant === 'small'
+      })}
       ref={dropdownInnerRef}
     >
       <button
