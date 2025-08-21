@@ -19,7 +19,7 @@ function App() {
             element={<Personslist />}
           />
           <Route
-            path='/details'
+            path='/details/:id'
             element={<PersonDetails />}
           />
         </Routes>
