@@ -1,6 +1,6 @@
 import './Loader.scss';
-import loadingSmall from '../assets/images/Loading-small.png';
-import loadingBig from '../assets/images/Loading-big.png';
+import loadingSmall from '../../assets/images/Loading-small.png';
+import loadingBig from '../../assets/images/Loading-big.png';
 
 type LoaderVariant = 'default' | 'small';
 
