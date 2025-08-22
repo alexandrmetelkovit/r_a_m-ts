@@ -1,8 +1,5 @@
 .person-details {
   padding-block: 42px;
-  display: grid;
-
-  max-height: 100%;
 
   &__link {
     display: inline-flex;
@@ -12,20 +9,25 @@
 
     font-family: 'Karla', 'sans-serif';
     font-weight: 700;
-    text-decoration: none;
     color: #000;
+    text-decoration: none;
     transition-duration: 0.2s;
     cursor: pointer;
+
+    svg path {
+      fill: currentColor;
+      transition: fill 0.2s;
+    }
   }
 
   @media (hover: hover) {
     &__link:hover {
-      opacity: 0.7;
+      color: #66956f;
     }
   }
   @media (hover: none) {
     &__link:active {
-      opacity: 0.7;
+      color: #66956f;
     }
   }
 
@@ -33,5 +35,65 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    max-width: 852px;
+    margin-inline: auto;
+    row-gap: 42px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 16px;
+    max-width: 500px;
+
+    &-img-person {
+      border-radius: 50%;
+      border: 5px solid #f2f2f7;
+    }
+    &-name {
+      font-size: 48px;
+      text-align: center;
+    }
+  }
+
+  &__info {
+    max-width: 413px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 36px;
+
+    &-title {
+      min-width: 107px;
+      font-size: 20px;
+      font-weight: 500;
+      color: #8e8e93;
+      text-align: center;
+    }
+  }
+
+  &__list {
+    display: grid;
+    row-gap: 20px;
+  }
+
+  &__item {
+    display: grid;
+    row-gap: 10px;
+    border-bottom: 1px solid #21212114;
+    padding-bottom: 9px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #081f32;
+  }
+
+  &__view {
+    font-size: 14px;
+    color: #6e798c;
   }
 }

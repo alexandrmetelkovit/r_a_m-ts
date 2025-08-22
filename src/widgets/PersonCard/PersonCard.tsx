@@ -1,4 +1,5 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './PersonCard.scss';
 import { Input } from '../../components/Input/Input';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
@@ -124,7 +125,12 @@ export const PersonCard = memo(
               </div>
             ) : (
               <div className='person-card__name-inner'>
-                <p className='person-card__name'>{currentName}</p>
+                <Link
+                  to={`details/${id}`}
+                  className='person-card__name'
+                >
+                  {currentName}
+                </Link>
               </div>
             )}
 

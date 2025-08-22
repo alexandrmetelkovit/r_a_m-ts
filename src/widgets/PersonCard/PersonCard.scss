@@ -30,6 +30,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #209635d9;
+    }
 
     &-inner {
       display: flex;
@@ -89,12 +95,15 @@
   }
 
   &__item {
-    max-width: 115px;
-    min-width: 94px;
+    min-width: 115px;
     display: grid;
     row-gap: 7px;
     letter-spacing: 0.25px;
     white-space: nowrap;
+  }
+  &__item:nth-last-child(2) {
+    white-space: wrap;
+    min-width: 210px;
   }
   &__item:last-child {
     max-width: 94px;
@@ -112,7 +121,6 @@
     font-size: 14px;
     font-weight: 400;
     color: #00000099;
-    overflow: hidden;
 
     &-inner {
       display: flex;

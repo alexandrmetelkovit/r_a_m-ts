@@ -49,7 +49,8 @@
     }
 
     .input--small & {
-      max-width: 115px;
+      max-width: 205px;
+      min-width: 115px;
       font-size: 14px;
       font-weight: 400;
       color: #00000099;
