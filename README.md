@@ -3,7 +3,7 @@
 
 Проект на **React + Typescript + Vite**, который показывает список персонажей из мультсериала "Рик и Морти".
 
-![Скриншот проекта]("https://github.com/user-attachments/assets/da0faf8a-59e8-4e0b-8440-1e442f3a95dd")
+![Скриншот проекта](https://github.com/user-attachments/assets/da0faf8a-59e8-4e0b-8440-1e442f3a95dd)
 
 ---
 
