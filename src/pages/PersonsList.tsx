@@ -9,6 +9,7 @@ import { getErrorMessage } from '../lib/errorUtils';
 import { showToast } from '../lib/toast';
 import { Loader } from '../components/Loader/Loader';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDebounce } from '../lib/useDebounce';
 
 export const Personslist = () => {
   const [persons, setPersons] = useState<IPersonCardProps[]>([]);
@@ -20,6 +21,8 @@ export const Personslist = () => {
   const [filterSpecies, setFilterSpecies] = useState('');
   const [filterGender, setFilterGender] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+
+  const debounceSearchName = useDebounce(filterName, 1000);
 
   const handleSavePerson = useCallback(
     (id: number, newName: string, newLocation: string, newStatus: string) => {
@@ -50,7 +53,7 @@ export const Personslist = () => {
 
     getCharacters({
       page: page,
-      name: filterName,
+      name: debounceSearchName,
       species: filterSpecies,
       gender: filterGender,
       status: filterStatus
@@ -85,7 +88,7 @@ export const Personslist = () => {
         }
         setIsLoading(false);
       });
-  }, [page, filterName, filterSpecies, filterGender, filterStatus, handleSavePerson]);
+  }, [page, debounceSearchName, filterSpecies, filterGender, filterStatus, handleSavePerson]);
 
   useEffect(() => {
     setPage(1);
