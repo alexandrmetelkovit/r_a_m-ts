@@ -73,19 +73,23 @@ export const PersonCard = memo(
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentName(e.target.value);
       if (e.target.value.trim().length >= 1) setNameError('');
+      if (e.target.value.length > 35) setNameError('');
     };
 
     const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       if (e.target.value.trim().length < 1) setNameError('Имя не может быть пустым');
+      if (e.target.value.length > 35) setNameError('Введите не более 35 символов');
     };
 
     const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentLocation(e.target.value);
       if (e.target.value.length >= 1) setLocationError('');
+      if (e.target.value.length <= 45) setLocationError('');
     };
 
     const handleLocationBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       if (e.target.value.trim().length < 1) setLocationError('Локация не может быть пустой');
+      if (e.target.value.length > 45) setLocationError('Введите не более 45 символов');
     };
 
     const handleStatusChange = (value: string | number) =>
