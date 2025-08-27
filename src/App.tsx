@@ -1,12 +1,13 @@
 import { Content } from './components/Content/Content';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
-import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import { Personslist } from './pages/PersonsList';
 import { PersonDetails } from './pages/PersonDetails';
+
+import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

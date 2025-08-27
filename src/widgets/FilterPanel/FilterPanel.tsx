@@ -1,6 +1,8 @@
 import './FilterPanel.scss';
+
 import { Dropdown } from '../../components/Dropdown/Dropdown';
 import { Input } from '../../components/Input/Input';
+
 import { genderOptions, speciesOptions, statusOptions } from '../../constants/filterOptions';
 
 interface IFilterPanelProps {

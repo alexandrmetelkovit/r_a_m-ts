@@ -1,5 +1,7 @@
 import classNames from 'classnames';
+
 import './Input.scss';
+
 import SearchFilterIcon from '../../assets/icons/search-filter.svg?react';
 
 type InputVariant = 'default' | 'personEdit' | 'small';

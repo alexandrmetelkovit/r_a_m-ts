@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+
 import { Link, useParams } from 'react-router-dom';
+
 import './PersonDetails.scss';
+
 import { getCharacterById, type IApiPersons } from '../lib/api';
+
 import { Loader } from '../components/Loader/Loader';
+
 import IconArrowLeftBlack from '../assets/icons/arrow-left_black.svg?react';
 
 export const PersonDetails = () => {

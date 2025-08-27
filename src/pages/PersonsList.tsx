@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
+import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
+import { Loader } from '../components/Loader/Loader';
+
 import personsListImage from '../assets/images/persons-list.png';
+
 import './PersonsList.scss';
+
 import { getCharacters, mapperCallback } from '../lib/api';
 import { getErrorMessage } from '../lib/errorUtils';
 import { showToast } from '../lib/toast';
-import { Loader } from '../components/Loader/Loader';
+import { useDebounce } from '../lib/useDebounce';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const Personslist = () => {
@@ -20,6 +26,8 @@ export const Personslist = () => {
   const [filterSpecies, setFilterSpecies] = useState('');
   const [filterGender, setFilterGender] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+
+  const debounceSearchName = useDebounce(filterName, 1000);
 
   const handleSavePerson = useCallback(
     (id: number, newName: string, newLocation: string, newStatus: string) => {
@@ -50,7 +58,7 @@ export const Personslist = () => {
 
     getCharacters({
       page: page,
-      name: filterName,
+      name: debounceSearchName,
       species: filterSpecies,
       gender: filterGender,
       status: filterStatus
@@ -85,7 +93,7 @@ export const Personslist = () => {
         }
         setIsLoading(false);
       });
-  }, [page, filterName, filterSpecies, filterGender, filterStatus, handleSavePerson]);
+  }, [page, debounceSearchName, filterSpecies, filterGender, filterStatus, handleSavePerson]);
 
   useEffect(() => {
     setPage(1);

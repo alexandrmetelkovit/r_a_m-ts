@@ -1,5 +1,6 @@
-import imageHeader from '../../assets/images/header-logo/1.svg';
 import './Header.scss';
+
+import imageHeader from '../../assets/images/header-logo/1.svg';
 
 import { Link } from 'react-router-dom';
 
