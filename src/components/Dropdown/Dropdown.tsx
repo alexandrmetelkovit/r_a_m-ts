@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
+
 import classNames from 'classnames';
+
 import './Dropdown.scss';
+
+import { Status } from '../Status/Status';
 
 type DropdownVariant = 'default' | 'small';
 
 interface IDropdownOption {
   label: string | number;
   value: string | number;
-  color?: string; //опционально для маленького селекта
+  color?: string;
 }
 
 export interface IDropdownProps {
@@ -68,12 +72,7 @@ export const Dropdown = ({
         {selected ? (
           <div className='dropdown__button-body'>
             {selected.label}
-            {variant === 'small' && selected.color && (
-              <span
-                className='dropdown__dot'
-                style={{ backgroundColor: selected.color }}
-              />
-            )}
+            {variant === 'small' && selected.color && <Status color={selected.color} />}
           </div>
         ) : (
           placeholder
@@ -103,12 +102,7 @@ export const Dropdown = ({
                 }}
               >
                 {label}
-                {variant === 'small' && color && (
-                  <span
-                    className='dropdown__dot'
-                    style={{ backgroundColor: color }}
-                  />
-                )}
+                {variant === 'small' && color && <Status color={color} />}
               </li>
             ))}
           </ul>

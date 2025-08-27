@@ -1,15 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
+
 import { PersonCard } from '../widgets/PersonCard/PersonCard';
+import type { IPersonCardProps } from '../widgets/PersonCard/PersonCard';
 import { FilterPanel } from '../widgets/FilterPanel/FilterPanel';
+import { Loader } from '../components/Loader/Loader';
+
 import personsListImage from '../assets/images/persons-list.png';
+
 import './PersonsList.scss';
+
 import { getCharacters, mapperCallback } from '../lib/api';
 import { getErrorMessage } from '../lib/errorUtils';
 import { showToast } from '../lib/toast';
-import { Loader } from '../components/Loader/Loader';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDebounce } from '../lib/useDebounce';
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const Personslist = () => {
   const [persons, setPersons] = useState<IPersonCardProps[]>([]);

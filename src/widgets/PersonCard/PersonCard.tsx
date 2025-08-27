@@ -1,9 +1,15 @@
 import { memo, useState } from 'react';
+
 import { Link } from 'react-router-dom';
+
 import './PersonCard.scss';
+
 import { Input } from '../../components/Input/Input';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
+import { Status } from '../../components/Status/Status';
+
 import classNames from 'classnames';
+
 import CloseIcon from '../../assets/icons/person-edit-close.svg?react';
 import DoneIcon from '../../assets/icons/check-edit.svg?react';
 import EditIcon from '../../assets/icons/person-edit.svg?react';
@@ -67,7 +73,7 @@ export const PersonCard = memo(
       setLocationError('');
       setCurrentName(name);
       setCurrentLocation(location);
-      setStatusValue(status.toLocaleLowerCase());
+      setStatusValue(status.toLowerCase());
     };
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -236,12 +242,7 @@ export const PersonCard = memo(
               ) : (
                 <p className='person-card__view'>
                   {label}
-                  <span
-                    className='dot'
-                    style={{
-                      backgroundColor: color
-                    }}
-                  />
+                  <Status color={color} />
                 </p>
               )}
             </li>
